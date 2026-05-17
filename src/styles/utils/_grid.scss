@@ -1,0 +1,37 @@
+@use './media' as *;
+
+.page-grid {
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  margin-inline: 240px;
+
+  @include tablet {
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: 20px;
+    margin-inline: 48px;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 16px;
+    margin-inline: 16px;
+  }
+}
+
+.section {
+  position: relative;
+  padding-block: 96px;
+
+  @include tablet {
+    padding-block: 80px;
+  }
+
+  @include mobile {
+    padding-block: 56px;
+  }
+}

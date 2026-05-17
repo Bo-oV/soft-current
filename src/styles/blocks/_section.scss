@@ -1,0 +1,15 @@
+.section__header {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.section__eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}

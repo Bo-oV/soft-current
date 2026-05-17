@@ -1,0 +1,57 @@
+@use '../../styles/utils/media' as *;
+@use '../../styles/utils/mixins' as *;
+
+.products {
+  background: var(--color-bg-light);
+
+  &__grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__action {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+  }
+}
+
+.product-card {
+  display: grid;
+  gap: 18px;
+
+  &__image {
+    @include placeholder-surface;
+    aspect-ratio: 4 / 5;
+    min-height: 0;
+  }
+
+  &__body {
+    display: grid;
+    gap: 6px;
+  }
+
+  &__category {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  &__price {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+}

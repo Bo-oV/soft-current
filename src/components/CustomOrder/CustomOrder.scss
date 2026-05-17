@@ -1,0 +1,40 @@
+@use '../../styles/utils/media' as *;
+@use '../../styles/utils/mixins' as *;
+
+.custom-order {
+  background: var(--color-bg-light);
+
+  &__container {
+    align-items: center;
+  }
+
+  &__image {
+    @include placeholder-surface;
+    grid-column: 1 / span 5;
+    min-height: 440px;
+
+    @include tablet {
+      grid-column: 1 / span 4;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+      min-height: 300px;
+    }
+  }
+
+  &__content {
+    grid-column: 7 / span 5;
+    display: grid;
+    gap: 22px;
+
+    @include tablet {
+      grid-column: 5 / -1;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+      margin-top: 32px;
+    }
+  }
+}

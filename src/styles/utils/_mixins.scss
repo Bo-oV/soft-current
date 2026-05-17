@@ -1,0 +1,11 @@
+@mixin placeholder-surface {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background:
+    linear-gradient(135deg, rgba(168, 117, 80, 0.12), rgba(255, 255, 255, 0.4)),
+    var(--color-bg-light);
+  color: var(--color-muted);
+}

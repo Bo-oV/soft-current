@@ -1,0 +1,83 @@
+@use '../../styles/utils/media' as *;
+@use '../../styles/utils/mixins' as *;
+
+.hero {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  align-items: center;
+
+  @include mobile {
+    min-height: auto;
+  }
+
+  &__container {
+    align-items: center;
+  }
+
+  &__content {
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: 24px;
+
+    @include tablet {
+      grid-column: 1 / span 4;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__text {
+    max-width: 520px;
+  }
+
+  &__media {
+    position: relative;
+    grid-column: 7 / -1;
+
+    @include tablet {
+      grid-column: 5 / -1;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+      margin-top: 40px;
+    }
+  }
+
+  &__image-placeholder {
+    @include placeholder-surface;
+    min-height: 520px;
+
+    @include mobile {
+      min-height: 320px;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    color: var(--color-text);
+    background: var(--color-white);
+    box-shadow: var(--shadow);
+  }
+
+  &__decor {
+    position: absolute;
+    top: -36px;
+    left: -44px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    opacity: 0.35;
+
+    @include mobile {
+      display: none;
+    }
+  }
+}

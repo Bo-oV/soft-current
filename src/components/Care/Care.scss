@@ -1,0 +1,27 @@
+@use '../../styles/utils/media' as *;
+
+.care {
+  &__grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    @include tablet {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__item {
+    display: grid;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+}

@@ -1,0 +1,47 @@
+@use '../../styles/utils/media' as *;
+
+.contacts {
+  &__container {
+    align-items: start;
+  }
+
+  &__info {
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: 20px;
+
+    @include tablet {
+      grid-column: 1 / span 4;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 8px;
+    color: var(--color-text);
+  }
+
+  &__form {
+    grid-column: 7 / -1;
+    display: grid;
+    gap: 18px;
+    padding: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background: var(--color-bg-light);
+
+    @include tablet {
+      grid-column: 5 / -1;
+    }
+
+    @include mobile {
+      grid-column: 1 / -1;
+      margin-top: 32px;
+      padding: 20px;
+    }
+  }
+}
