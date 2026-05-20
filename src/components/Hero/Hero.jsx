@@ -20,6 +20,23 @@ function Hero() {
 
           <Button className="hero__button">Переглянути колекцію</Button>
         </div>
+
+        <div className="hero__mark" aria-label="100% ручна робота">
+          <img
+            className="hero__mark-image"
+            src="/images/icon_hero.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <span className="hero__mark-text">
+            <strong>100%</strong>
+            <span>
+              ручна
+              <br />
+              робота
+            </span>
+          </span>
+        </div>
       </div>
     </section>
   );

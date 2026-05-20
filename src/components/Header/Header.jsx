@@ -90,7 +90,7 @@ function Header() {
                 <item.Icon
                   className="header__icon"
                   color="currentColor"
-                  size={32}
+                  size={24}
                   strokeWidth={1}
                   aria-hidden="true"
                 />

@@ -1,0 +1,32 @@
+@use "../../../styles/utils/media" as *;
+
+.section-title {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  text-align: center;
+
+  &__text {
+    margin: 0;
+    font-family: var(--font-main);
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: 0;
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+
+  &__decor {
+    width: 209px;
+    height: auto;
+  }
+
+  @include mobile {
+    gap: 0;
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+}

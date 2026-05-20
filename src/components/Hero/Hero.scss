@@ -31,8 +31,7 @@
     min-height: 100dvh;
     align-content: start;
 
-    // якщо header fixed і його висота приблизно 80px:
-    padding-top: 160px; // 80px header + 160px відступ до заголовка
+    padding-top: 120px;
     padding-bottom: 64px;
   }
 
@@ -64,11 +63,63 @@
     margin-top: 48px;
   }
 
+  &__mark {
+    position: absolute;
+    right: -80px;
+    bottom: clamp(40px, 20vh, 100px);
+    z-index: 2;
+    width: clamp(160px, 16vw, 299px);
+    aspect-ratio: 1;
+  }
+
+  &__mark-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__mark-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+    border-radius: 50%;
+    width: 43%;
+    aspect-ratio: 1 / 1.2;
+    padding: 0;
+
+    font-family: var(--font-main);
+    font-size: clamp(8px, 0.9vw, 12px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text);
+    text-align: center;
+    text-transform: uppercase;
+
+    transform: translate(-50%, -50%);
+
+    strong {
+      display: block;
+      font-size: clamp(10px, 1.6vw, 16px);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
   @include tablet {
     background-position: 62% center;
 
     &__container {
-      padding-top: 200px;
+      padding-top: 150px;
     }
 
     &__content {
@@ -83,13 +134,28 @@
     &__text {
       font-size: 18px;
     }
+
+    &__mark {
+      right: 0;
+      bottom: 150px;
+      width: 168px;
+    }
+    &__mark-text {
+      strong {
+        font-size: clamp(10px, 1.6vw, 12px);
+      }
+      span {
+        display: block;
+      }
+    }
   }
 
   @include mobile {
     background-image: url("/images/mobile_photo_hero.png");
     background-position: center;
+
     &__container {
-      padding-top: 164px;
+      padding-top: 112px;
       padding-bottom: 40px;
     }
 
@@ -112,6 +178,23 @@
 
     &__button {
       margin-top: 36px;
+    }
+
+    &__mark {
+      right: -18px;
+      bottom: 76px;
+      width: clamp(150px, 43vw, 178px);
+      display: block;
+    }
+
+    &__mark-text {
+      width: 43%;
+      padding: 7px;
+      font-size: 9px;
+
+      strong {
+        font-size: 14px;
+      }
     }
   }
 }

@@ -1,8 +1,8 @@
-@use './media' as *;
+@use "./media" as *;
 
 .page-grid {
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 0;
 
   @include mobile {
     padding-top: 68px;
@@ -30,13 +30,13 @@
 
 .section {
   position: relative;
-  padding-block: 96px;
+  padding-block: 64px;
 
   @include tablet {
-    padding-block: 80px;
+    padding-block: 48px;
   }
 
   @include mobile {
-    padding-block: 56px;
+    padding-block: 32px;
   }
 }
