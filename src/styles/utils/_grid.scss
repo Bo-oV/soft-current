@@ -2,6 +2,11 @@
 
 .page-grid {
   overflow: hidden;
+  padding-top: 80px;
+
+  @include mobile {
+    padding-top: 68px;
+  }
 }
 
 .container {

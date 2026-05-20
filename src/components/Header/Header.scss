@@ -1,42 +1,74 @@
-@use '../../styles/utils/media' as *;
+@use "../../styles/utils/media" as *;
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 50;
-  border-bottom: 1px solid var(--color-border);
-  background: rgba(247, 242, 236, 0.92);
-  backdrop-filter: blur(12px);
+
+  background: var(--color-bg);
 
   &__inner {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: 60px;
     align-items: center;
-    gap: 32px;
     min-height: 80px;
     margin-inline: 240px;
 
+    @media (max-width: 1439px) {
+      margin-inline: 120px;
+    }
+
     @include tablet {
+      column-gap: 32px;
       margin-inline: 48px;
     }
 
     @include mobile {
       grid-template-columns: 1fr auto;
-      gap: 16px;
+      column-gap: 16px;
       min-height: 68px;
       margin-inline: 16px;
     }
   }
 
   &__logo {
-    font-size: 28px;
-    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    width: 86px;
+
+    @include tablet {
+      width: 76px;
+    }
+
+    @include mobile {
+      grid-column: 1;
+      width: 86px;
+    }
+  }
+
+  &__logo-image {
+    width: 100%;
+    height: auto;
   }
 
   &__nav {
     display: flex;
-    justify-content: center;
-    gap: 28px;
+    justify-self: end;
+    justify-content: flex-end;
+    gap: 48px;
+    max-width: 100%;
+
+    @media (max-width: 1439px) {
+      gap: 32px;
+    }
+
+    @include tablet {
+      gap: 16px;
+    }
 
     @include mobile {
       position: absolute;
@@ -44,6 +76,8 @@
       display: none;
       flex-direction: column;
       gap: 0;
+      width: auto;
+      max-width: none;
       padding: 16px;
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
@@ -59,8 +93,20 @@
   }
 
   &__link {
-    font-size: 14px;
-    font-weight: 700;
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--color-text);
+    transition:
+      color var(--transition),
+      font-weight var(--transition);
+
+    &--active {
+      font-weight: 500;
+      color: var(--color-active);
+    }
 
     @include mobile {
       padding: 12px 0;
@@ -69,23 +115,60 @@
 
   &__actions {
     display: flex;
-    gap: 10px;
+    justify-self: end;
+    gap: 24px;
 
     @include mobile {
       display: none;
     }
   }
 
+  &__icon-button {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    color: var(--color-active);
+    background: transparent;
+  }
+
+  &__icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
   &__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__counter {
+    position: absolute;
+    top: -6px;
+    right: -7px;
     display: grid;
     place-items: center;
-    min-width: 44px;
-    min-height: 44px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--color-muted);
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-white);
+    background: var(--color-active);
+  }
+
+  &__action-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   &__burger {

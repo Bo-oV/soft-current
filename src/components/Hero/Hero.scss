@@ -1,83 +1,117 @@
-@use '../../styles/utils/media' as *;
-@use '../../styles/utils/mixins' as *;
+@use "../../styles/utils/media" as *;
+@use "../../styles/utils/mixins" as *;
 
 .hero {
-  min-height: calc(100vh - 80px);
-  display: grid;
-  align-items: center;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-image: url("/public/images/photo_hero.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
 
-  @include mobile {
-    min-height: auto;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(251, 248, 244, 0.72) 0%,
+      rgba(251, 248, 244, 0.48) 34%,
+      rgba(251, 248, 244, 0.12) 65%,
+      rgba(251, 248, 244, 0.04) 100%
+    );
   }
 
   &__container {
-    align-items: center;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    align-content: start;
+
+    // якщо header fixed і його висота приблизно 80px:
+    padding-top: 160px; // 80px header + 160px відступ до заголовка
+    padding-bottom: 64px;
   }
 
   &__content {
     grid-column: 1 / span 5;
-    display: grid;
-    gap: 24px;
+    max-width: 560px;
+  }
 
-    @include tablet {
-      grid-column: 1 / span 4;
-    }
-
-    @include mobile {
-      grid-column: 1 / -1;
-    }
+  &__title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-text);
   }
 
   &__text {
-    max-width: 520px;
-  }
-
-  &__media {
-    position: relative;
-    grid-column: 7 / -1;
-
-    @include tablet {
-      grid-column: 5 / -1;
-    }
-
-    @include mobile {
-      grid-column: 1 / -1;
-      margin-top: 40px;
-    }
-  }
-
-  &__image-placeholder {
-    @include placeholder-surface;
-    min-height: 520px;
-
-    @include mobile {
-      min-height: 320px;
-    }
-  }
-
-  &__badge {
-    position: absolute;
-    right: 24px;
-    bottom: 24px;
-    padding: 12px 16px;
-    border-radius: var(--border-radius);
+    margin-top: 28px;
+    font-family: var(--font-main);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 160%;
     color: var(--color-text);
-    background: var(--color-white);
-    box-shadow: var(--shadow);
+    max-width: 540px;
   }
 
-  &__decor {
-    position: absolute;
-    top: -36px;
-    left: -44px;
-    width: 120px;
-    height: 120px;
-    border: 1px solid var(--color-accent);
-    border-radius: 50%;
-    opacity: 0.35;
+  &__button {
+    margin-top: 48px;
+  }
 
-    @include mobile {
-      display: none;
+  @include tablet {
+    background-position: 62% center;
+
+    &__container {
+      padding-top: 200px;
+    }
+
+    &__content {
+      grid-column: 1 / span 6;
+      max-width: 520px;
+    }
+
+    &__title {
+      font-size: 56px;
+    }
+
+    &__text {
+      font-size: 18px;
+    }
+  }
+
+  @include mobile {
+    background-image: url("/images/mobile_photo_hero.png");
+    background-position: center;
+    &__container {
+      padding-top: 164px;
+      padding-bottom: 40px;
+    }
+
+    &__content {
+      grid-column: 1 / -1;
+      max-width: 100%;
+    }
+
+    &__title {
+      font-size: 40px;
+      line-height: 1.05;
+    }
+
+    &__text {
+      margin-top: 24px;
+      font-size: 16px;
+      line-height: 160%;
+      max-width: 100%;
+    }
+
+    &__button {
+      margin-top: 36px;
     }
   }
 }

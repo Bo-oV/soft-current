@@ -1,28 +1,28 @@
-import Button from '../UI/Button/Button'
-import './Hero.scss'
+import Button from "../UI/Button/Button";
+import "./Hero.scss";
 
 function Hero() {
   return (
-    <section className="hero section" id="hero">
+    <section className="hero" id="hero">
       <div className="container hero__container">
         <div className="hero__content">
-          <span className="section__eyebrow">Handmade knitwear</span>
-          <h1 className="hero__title">Теплі речі, створені вручну</h1>
-          <p className="hero__text">
-            Базовий каркас лендінгу для магазину в'язаних виробів з місцем під
-            фото, декор, CTA та майбутню деталізовану верстку.
-          </p>
-          <Button>Переглянути каталог</Button>
-        </div>
+          <h1 className="hero__title">
+            В’язано з турботою
+            <br />
+            створено для вас
+          </h1>
 
-        <div className="hero__media">
-          <div className="hero__image-placeholder">Фото виробу</div>
-          <div className="hero__badge">100% handmade</div>
-          <div className="hero__decor" aria-hidden="true" />
+          <p className="hero__text">
+            Повільна мода, натуральні матеріали та речі, які дарують тепло і
+            затишок щодня. Кожен виріб створюється вручну невеликими партіями
+            однією майстринею.
+          </p>
+
+          <Button className="hero__button">Переглянути колекцію</Button>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Hero
+export default Hero;
