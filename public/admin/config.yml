@@ -1,0 +1,57 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dgpa5gxwf
+    api_key: 741641497372536
+
+publish_mode: editorial_workflow
+locale: uk
+
+collections:
+  - name: products
+    label: Товари
+    files:
+      - name: products
+        label: Список товарів
+        file: src/data/products.json
+        format: json
+        fields:
+          - label: Товари
+            name: items
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: ID, name: id, widget: string }
+              - label: Категорія
+                name: category
+                widget: select
+                options:
+                  - Кардигани
+                  - Светри
+                  - Шарфи
+                  - Сумки
+                  - Декор
+                  - Інше
+              - { label: Назва, name: title, widget: string }
+              - { label: Підзаголовок, name: subtitle, widget: string }
+              - { label: Опис, name: description, widget: text }
+              - { label: Розміри, name: sizes, widget: string }
+              - { label: Склад, name: composition, widget: text }
+              - { label: Стара ціна, name: oldPrice, widget: number, required: false, value_type: int }
+              - { label: Ціна, name: price, widget: number, value_type: int }
+              - { label: Валюта, name: currency, widget: string, default: грн }
+              - { label: Головне фото, name: mainImage, widget: image }
+              - label: Галерея
+                name: gallery
+                widget: list
+                required: false
+                field: { label: Фото, name: image, widget: image }
+              - { label: Доступний, name: available, widget: boolean, default: true }
+              - { label: Популярний, name: popular, widget: boolean, default: true }
+              - { label: Доступне індивідуальне замовлення, name: customOrderAvailable, widget: boolean, default: true }
+              - { label: Текст кнопки, name: buttonText, widget: string, default: Купити }
+              - { label: Текст індивідуального замовлення, name: customOrderText, widget: string, default: Замовити індивідуально }

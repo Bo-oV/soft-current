@@ -1,10 +1,14 @@
-import { products } from '../../data/products'
+import productsData from '../../data/products.json'
 import Button from '../UI/Button/Button'
 import SectionTitle from '../UI/SectionTitle/SectionTitle'
 import ProductCard from './ProductCard'
 import './Products.scss'
 
 function Products() {
+  const availableProducts = productsData.items.filter((product) => product.available)
+  const popularProducts = availableProducts.filter((product) => product.popular)
+  const visibleProducts = popularProducts.length > 0 ? popularProducts : availableProducts
+
   return (
     <section className="products section" id="products">
       <div className="container">
@@ -13,7 +17,7 @@ function Products() {
         </SectionTitle>
 
         <div className="products__grid">
-          {products.map((product) => (
+          {visibleProducts.map((product) => (
             <ProductCard product={product} key={product.id} />
           ))}
         </div>
