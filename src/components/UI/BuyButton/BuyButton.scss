@@ -21,16 +21,29 @@
   transform-origin: center;
   transition:
     background var(--transition),
+    color var(--transition),
     transform var(--transition);
 
   &:hover,
   &:focus-visible {
-    background: var(--color-accent-dark);
+    background: var(--color-white);
+    color: var(--color-text);
     transform: scale(1.1);
   }
 
   &:focus-visible {
     outline: 2px solid var(--color-accent-dark);
     outline-offset: 3px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-accent);
+      transform: none;
+    }
   }
 }

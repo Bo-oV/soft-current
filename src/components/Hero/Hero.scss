@@ -61,6 +61,12 @@
 
   &__button {
     margin-top: 48px;
+    min-width: 288px;
+    min-height: 56px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.1;
+    text-transform: uppercase;
   }
 
   &__mark {
