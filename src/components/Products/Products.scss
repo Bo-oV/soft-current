@@ -43,11 +43,28 @@
   max-width: 308px;
   overflow: hidden;
   border-radius: 12px;
+  cursor: pointer;
+  transform-origin: center;
+  transition:
+    box-shadow var(--transition),
+    transform var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: 0 5px 12px 0 rgba(61, 31, 8, 0.2);
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 8px;
+  }
 
   &__media {
     position: relative;
     aspect-ratio: 308 / 385;
     min-height: 0;
+    margin-inline: 1px;
     overflow: hidden;
     border-radius: 12px 12px 0 0;
     background: var(--color-bg);

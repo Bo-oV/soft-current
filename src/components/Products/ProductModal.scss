@@ -1,0 +1,50 @@
+.product-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(77, 64, 56, 0.45);
+  backdrop-filter: blur(6px);
+
+  &__dialog {
+    position: relative;
+    width: min(1056px, calc(100vw - 56px));
+    min-height: 485px;
+    padding: 60px;
+    border-radius: 48px;
+    background: var(--color-bg-light);
+    box-shadow: 0 24px 80px rgba(77, 64, 56, 0.22);
+  }
+
+  &__close {
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+    transform-origin: center;
+    transition:
+      color var(--transition),
+      transform var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent-dark);
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 4px;
+    }
+  }
+}

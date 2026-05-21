@@ -2,7 +2,12 @@ import { useMemo, useState } from "react";
 import { Heart } from "lucide-react";
 import BuyButton from "../UI/BuyButton/BuyButton";
 
-function ProductCard({ product, isFavorite = false, onFavoriteToggle }) {
+function ProductCard({
+  product,
+  isFavorite = false,
+  onFavoriteToggle,
+  onOpen,
+}) {
   const images = useMemo(() => {
     const galleryImages = (product.gallery || [])
       .map((galleryItem) =>
@@ -30,8 +35,31 @@ function ProductCard({ product, isFavorite = false, onFavoriteToggle }) {
     onFavoriteToggle?.(product.id);
   };
 
+  const handleOpen = () => {
+    onOpen?.(product);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpen();
+    }
+  };
+
+  const stopCardKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.stopPropagation();
+    }
+  };
+
   return (
-    <article className="product-card">
+    <article
+      className="product-card"
+      role="button"
+      tabIndex={0}
+      onClick={handleOpen}
+      onKeyDown={handleKeyDown}
+    >
       <div className="product-card__media">
         {activeImage ? (
           <img
@@ -47,7 +75,11 @@ function ProductCard({ product, isFavorite = false, onFavoriteToggle }) {
           type="button"
           aria-label={isFavorite ? "Прибрати з обраного" : "Додати в обране"}
           aria-pressed={isFavorite}
-          onClick={handleFavoriteClick}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleFavoriteClick();
+          }}
+          onKeyDown={stopCardKeyDown}
         >
           <Heart
             size={16}
@@ -65,7 +97,11 @@ function ProductCard({ product, isFavorite = false, onFavoriteToggle }) {
                 type="button"
                 aria-label={`Показати фото ${index + 1}`}
                 aria-pressed={activeImageIndex === index}
-                onClick={() => setActiveImageIndex(index)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setActiveImageIndex(index);
+                }}
+                onKeyDown={stopCardKeyDown}
                 key={`${image}-dot-${index}`}
               />
             ))}
@@ -85,7 +121,11 @@ function ProductCard({ product, isFavorite = false, onFavoriteToggle }) {
             )}
             <span className="product-card__price">{price}</span>
           </div>
-          <BuyButton className="product-card__button">
+          <BuyButton
+            className="product-card__button"
+            onClick={(event) => event.stopPropagation()}
+            onKeyDown={stopCardKeyDown}
+          >
             {product.buttonText}
           </BuyButton>
         </div>
