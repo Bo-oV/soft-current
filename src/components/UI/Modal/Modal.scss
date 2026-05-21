@@ -26,6 +26,24 @@
     border-radius: 50%;
     color: var(--color-text);
     background: var(--color-bg-light);
+    cursor: pointer;
+    transform-origin: center;
+    transition:
+      color var(--transition),
+      background var(--transition),
+      transform var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent-dark);
+      background: var(--color-bg);
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+    }
   }
 
   &__content {

@@ -10,13 +10,17 @@
   color: var(--color-white);
   background: var(--color-accent);
   box-shadow: 0 5px 12px 0 rgba(61, 31, 8, 0.2);
+  transform-origin: center;
   transition:
     background var(--transition),
     color var(--transition),
-    border-color var(--transition);
+    border-color var(--transition),
+    transform var(--transition);
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: var(--color-accent-dark);
+    transform: scale(1.1);
   }
 
   &--secondary {
@@ -24,7 +28,8 @@
     border-color: var(--color-accent);
     background: transparent;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       color: var(--color-white);
       background: var(--color-accent);
     }
