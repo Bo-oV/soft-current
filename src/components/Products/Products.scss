@@ -1,5 +1,5 @@
-@use '../../styles/utils/media' as *;
-@use '../../styles/utils/mixins' as *;
+@use "../../styles/utils/media" as *;
+@use "../../styles/utils/mixins" as *;
 
 .products {
   background: var(--color-bg-light);
@@ -29,7 +29,9 @@
 
   &__action {
     grid-column: 1 / -1;
-    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
   }
 }
 
@@ -40,14 +42,14 @@
   width: 100%;
   max-width: 308px;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 12px;
 
   &__media {
     position: relative;
     aspect-ratio: 308 / 385;
     min-height: 0;
     overflow: hidden;
-    border-radius: 20px 20px 0 0;
+    border-radius: 12px 12px 0 0;
     background: var(--color-bg);
   }
 
@@ -58,37 +60,53 @@
     object-fit: cover;
   }
 
+  &__image-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-light);
+    color: var(--color-muted);
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+
   &__favorite {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
     display: inline-grid;
     place-items: center;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     padding: 0;
-    border: 1px solid transparent;
+    border: none;
     border-radius: 50%;
     background: var(--color-bg);
     color: var(--color-accent);
     cursor: pointer;
+    transform-origin: center;
     transition:
       color var(--transition),
-      border-color var(--transition),
       background var(--transition),
       transform var(--transition);
 
     &:hover,
     &:focus-visible {
-      border-color: var(--color-accent);
       background: var(--color-bg-light);
       color: var(--color-accent-dark);
-      transform: translateY(-2px);
+      transform: scale(1.1);
     }
 
     &:focus-visible {
       outline: 2px solid var(--color-accent);
       outline-offset: 3px;
+    }
+
+    &--active {
+      color: var(--color-accent-dark);
     }
   }
 
@@ -104,14 +122,33 @@
   }
 
   &__dot {
-    width: 8px;
-    height: 8px;
+    display: block;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
     border-radius: 50%;
     background: var(--color-bg-light);
+    cursor: pointer;
+    transform-origin: center;
+    transition:
+      border-color var(--transition),
+      background var(--transition),
+      transform var(--transition);
 
     &--active {
       border: 2px solid var(--color-accent);
       background: var(--color-bg-light);
+    }
+
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
     }
   }
 
@@ -122,8 +159,8 @@
     gap: 0;
     min-height: 159px;
     margin-top: -95px;
-    padding: 18px 30px 18px;
-    border-radius: 20px 20px 0 0;
+    padding: 16px 24px 16px;
+    border-radius: 12px 12px 0 0;
     background: var(--color-bg-light);
   }
 
@@ -156,10 +193,10 @@
 
   &__footer {
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
     gap: 18px;
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   &__prices {
@@ -183,37 +220,7 @@
   }
 
   &__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 117px;
-    min-width: 0;
-    height: 44px;
-    padding: 12px 32px;
-    border: 0;
-    border-radius: 10px;
-    background: var(--color-accent);
-    color: var(--color-white);
-    font-family: var(--font-main);
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition:
-      background var(--transition),
-      transform var(--transition);
-
-    &:hover,
-    &:focus-visible {
-      background: var(--color-accent-dark);
-      transform: translateY(-2px);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-accent-dark);
-      outline-offset: 3px;
-    }
+    flex: 0 0 auto;
   }
 
   @include mobile {
@@ -271,7 +278,6 @@
     &__button {
       width: 117px;
       height: 44px;
-      font-size: 10px;
     }
   }
 }

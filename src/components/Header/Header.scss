@@ -93,15 +93,28 @@
   }
 
   &__link {
+    display: inline-block;
     font-family: var(--font-main);
     font-size: 16px;
     font-weight: 300;
     line-height: 1.2;
     white-space: nowrap;
     color: var(--color-text);
+    transform-origin: center;
     transition:
       color var(--transition),
-      font-weight var(--transition);
+      font-weight var(--transition),
+      transform var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-active);
+      outline-offset: 4px;
+    }
 
     &--active {
       font-weight: 500;
@@ -133,6 +146,21 @@
     border: 0;
     color: var(--color-active);
     background: transparent;
+    cursor: pointer;
+    transform-origin: center;
+    transition:
+      color var(--transition),
+      transform var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-active);
+      outline-offset: 3px;
+    }
   }
 
   &__icon-wrap {
@@ -183,6 +211,22 @@
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius);
       background: transparent;
+      cursor: pointer;
+      transform-origin: center;
+      transition:
+        border-color var(--transition),
+        transform var(--transition);
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--color-active);
+        transform: scale(1.1);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-active);
+        outline-offset: 3px;
+      }
     }
 
     span {

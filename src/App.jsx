@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
 import Products from './components/Products/Products'
@@ -9,12 +10,25 @@ import Contacts from './components/Contacts/Contacts'
 import Footer from './components/Footer/Footer'
 
 function App() {
+  const [favoriteProductIds, setFavoriteProductIds] = useState([])
+
+  const toggleFavorite = (productId) => {
+    setFavoriteProductIds((currentIds) =>
+      currentIds.includes(productId)
+        ? currentIds.filter((id) => id !== productId)
+        : [...currentIds, productId],
+    )
+  }
+
   return (
     <>
-      <Header />
+      <Header favoritesCount={favoriteProductIds.length} />
       <main className="page-grid">
         <Hero />
-        <Products />
+        <Products
+          favoriteProductIds={favoriteProductIds}
+          onFavoriteToggle={toggleFavorite}
+        />
         <HowToOrder />
         <CustomOrder />
         <Care />

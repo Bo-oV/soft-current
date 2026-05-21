@@ -10,22 +10,21 @@ const navItems = [
   { label: "Контакти", href: "#contacts", sectionId: "contacts" },
 ];
 
-const actionItems = [
-  {
-    label: "Кошик",
-    count: 2,
-    Icon: Handbag,
-  },
-  {
-    label: "Обране",
-    count: 1,
-    Icon: Heart,
-  },
-];
-
-function Header() {
+function Header({ favoritesCount = 0 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const actionItems = [
+    {
+      label: "Кошик",
+      count: 2,
+      Icon: Handbag,
+    },
+    {
+      label: "Обране",
+      count: favoritesCount,
+      Icon: Heart,
+    },
+  ];
 
   const closeMenu = () => setIsMenuOpen(false);
 
