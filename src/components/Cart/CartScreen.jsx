@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
-import ProductDetails from "./ProductDetails";
-import "./ProductModal.scss";
+import CartCheckoutContent from "./CartCheckoutContent";
+import "./CartScreen.scss";
 
-function ProductModal({ product, onCartAdd, onClose }) {
+function CartScreen({ isOpen, onClose }) {
   useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         onClose();
@@ -19,45 +23,35 @@ function ProductModal({ product, onCartAdd, onClose }) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+  }, [isOpen, onClose]);
 
-  if (!product) {
+  if (!isOpen) {
     return null;
   }
 
   return (
-    <div
-      className="product-modal"
-      role="presentation"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
-      }}
+    <section
+      className="cart-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-modal-title"
     >
-      <section
-        className="product-modal__dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="product-details-title"
-      >
+      <div className="cart-screen__header">
         <button
-          className="product-modal__close"
+          className="cart-screen__close"
           type="button"
           aria-label="Закрити"
           onClick={onClose}
         >
           <X size={24} strokeWidth={1.5} aria-hidden="true" />
         </button>
+      </div>
 
-        <ProductDetails
-          product={product}
-          variant="modal"
-          onCartAdd={onCartAdd}
-        />
-      </section>
-    </div>
+      <div className="cart-screen__body">
+        <CartCheckoutContent onClose={onClose} />
+      </div>
+    </section>
   );
 }
 
-export default ProductModal;
+export default CartScreen;

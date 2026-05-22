@@ -3,12 +3,15 @@ import "./BuyButton.scss";
 function BuyButton({
   children,
   type = "button",
+  variant = "primary",
   className = "",
   disabled = false,
   onClick,
   onKeyDown,
 }) {
-  const buttonClassName = ["buy-button", className].filter(Boolean).join(" ");
+  const buttonClassName = ["buy-button", `buy-button--${variant}`, className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <button

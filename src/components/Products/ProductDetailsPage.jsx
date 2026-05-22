@@ -9,6 +9,7 @@ function ProductDetailsPage({
   products = [],
   favoriteProductIds = [],
   onBack,
+  onCartAdd,
   onFavoriteToggle,
   onProductSelect,
 }) {
@@ -51,7 +52,12 @@ function ProductDetailsPage({
         <span>Назад</span>
       </button>
 
-      <ProductDetails product={product} variant="mobile" key={product.id} />
+      <ProductDetails
+        product={product}
+        variant="mobile"
+        onCartAdd={onCartAdd}
+        key={product.id}
+      />
 
       {otherProducts.length > 0 && (
         <div className="product-details-page__others">
@@ -62,6 +68,7 @@ function ProductDetailsPage({
                 product={item}
                 isFavorite={favoriteProductIds.includes(item.id)}
                 onFavoriteToggle={onFavoriteToggle}
+                onCartAdd={onCartAdd}
                 onOpen={onProductSelect}
                 key={item.id}
               />
