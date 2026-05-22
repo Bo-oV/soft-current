@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Heart } from "lucide-react";
+import { useCart } from "../../context/useCart";
 import BuyButton from "../UI/BuyButton/BuyButton";
 
 function ProductCard({
@@ -7,7 +8,9 @@ function ProductCard({
   isFavorite = false,
   onFavoriteToggle,
   onOpen,
+  onCartAdd,
 }) {
+  const { addToCart, isInCart, removeFromCart } = useCart();
   const images = useMemo(() => {
     const galleryImages = (product.gallery || [])
       .map((galleryItem) =>
@@ -24,6 +27,10 @@ function ProductCard({
   const oldPrice = product.oldPrice
     ? `${product.oldPrice} ${currency}`
     : "";
+  const productIsInCart = isInCart(product.id);
+  const cartButtonText = productIsInCart
+    ? "Відмінити"
+    : product.buttonText || "Купити";
   const favoriteButtonClassName = [
     "product-card__favorite",
     isFavorite ? "product-card__favorite--active" : "",
@@ -50,6 +57,16 @@ function ProductCard({
     if (event.key === "Enter" || event.key === " ") {
       event.stopPropagation();
     }
+  };
+
+  const handleCartClick = () => {
+    if (productIsInCart) {
+      removeFromCart(product.id);
+      return;
+    }
+
+    addToCart(product);
+    onCartAdd?.(product);
   };
 
   return (
@@ -123,10 +140,14 @@ function ProductCard({
           </div>
           <BuyButton
             className="product-card__button"
-            onClick={(event) => event.stopPropagation()}
+            variant={productIsInCart ? "text" : "primary"}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleCartClick();
+            }}
             onKeyDown={stopCardKeyDown}
           >
-            {product.buttonText}
+            {cartButtonText}
           </BuyButton>
         </div>
       </div>

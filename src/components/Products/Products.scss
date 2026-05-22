@@ -51,6 +51,7 @@
 
   &:hover,
   &:focus-visible {
+    z-index: 2;
     box-shadow: 0 5px 12px 0 rgba(61, 31, 8, 0.2);
     transform: scale(1.05);
   }
@@ -238,6 +239,11 @@
 
   &__button {
     flex: 0 0 auto;
+
+    &.buy-button--text {
+      width: auto;
+      height: auto;
+    }
   }
 
   @include mobile {
@@ -295,6 +301,11 @@
     &__button {
       width: 117px;
       height: 44px;
+
+      &.buy-button--text {
+        width: auto;
+        height: auto;
+      }
     }
   }
 }

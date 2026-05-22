@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCart } from "../../context/useCart";
 import BuyButton from "../UI/BuyButton/BuyButton";
 import "./ProductDetails.scss";
 
@@ -10,7 +11,8 @@ function normalizeGallery(gallery = []) {
     .filter(Boolean);
 }
 
-function ProductDetails({ product, variant = "modal" }) {
+function ProductDetails({ product, variant = "modal", onCartAdd }) {
+  const { addToCart, isInCart, removeFromCart } = useCart();
   const images = useMemo(
     () => [product.mainImage, ...normalizeGallery(product.gallery)].filter(Boolean),
     [product.gallery, product.mainImage],
@@ -23,11 +25,28 @@ function ProductDetails({ product, variant = "modal" }) {
     product.oldPrice && product.oldPrice > product.price
       ? `${product.oldPrice} ${currency}`
       : "";
+  const productIsInCart = isInCart(product.id);
   const buttonText = product.available === false
     ? "Недоступно"
-    : product.buttonText || "Купити";
+    : productIsInCart
+      ? "Відмінити"
+      : product.buttonText || "Купити";
   const customOrderText =
     product.customOrderText || "Замовити індивідуально";
+
+  const handleCartClick = () => {
+    if (product.available === false) {
+      return;
+    }
+
+    if (productIsInCart) {
+      removeFromCart(product.id);
+      return;
+    }
+
+    addToCart(product);
+    onCartAdd?.(product);
+  };
 
   return (
     <div className={`product-details product-details--${variant}`}>
@@ -106,7 +125,9 @@ function ProductDetails({ product, variant = "modal" }) {
 
           <BuyButton
             className="product-details__button"
+            variant={productIsInCart ? "text" : "primary"}
             disabled={product.available === false}
+            onClick={handleCartClick}
           >
             {buttonText}
           </BuyButton>

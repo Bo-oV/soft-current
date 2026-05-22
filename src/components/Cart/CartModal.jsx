@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
-import ProductDetails from "./ProductDetails";
-import "./ProductModal.scss";
+import CartCheckoutContent from "./CartCheckoutContent";
+import "./CartModal.scss";
 
-function ProductModal({ product, onCartAdd, onClose }) {
+function CartModal({ isOpen, onClose }) {
   useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         onClose();
@@ -19,15 +23,15 @@ function ProductModal({ product, onCartAdd, onClose }) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+  }, [isOpen, onClose]);
 
-  if (!product) {
+  if (!isOpen) {
     return null;
   }
 
   return (
     <div
-      className="product-modal"
+      className="cart-modal"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
@@ -36,13 +40,13 @@ function ProductModal({ product, onCartAdd, onClose }) {
       }}
     >
       <section
-        className="product-modal__dialog"
+        className="cart-modal__dialog"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="product-details-title"
+        aria-labelledby="cart-modal-title"
       >
         <button
-          className="product-modal__close"
+          className="cart-modal__close"
           type="button"
           aria-label="Закрити"
           onClick={onClose}
@@ -50,14 +54,10 @@ function ProductModal({ product, onCartAdd, onClose }) {
           <X size={24} strokeWidth={1.5} aria-hidden="true" />
         </button>
 
-        <ProductDetails
-          product={product}
-          variant="modal"
-          onCartAdd={onCartAdd}
-        />
+        <CartCheckoutContent onClose={onClose} />
       </section>
     </div>
   );
 }
 
-export default ProductModal;
+export default CartModal;

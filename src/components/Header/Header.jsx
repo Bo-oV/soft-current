@@ -10,14 +10,15 @@ const navItems = [
   { label: "Контакти", href: "#contacts", sectionId: "contacts" },
 ];
 
-function Header({ favoritesCount = 0 }) {
+function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const actionItems = [
     {
       label: "Кошик",
-      count: 2,
+      count: cartCount,
       Icon: Handbag,
+      onClick: onCartOpen,
     },
     {
       label: "Обране",
@@ -84,6 +85,7 @@ function Header({ favoritesCount = 0 }) {
               className="header__icon-button"
               type="button"
               key={item.label}
+              onClick={item.onClick}
             >
               <span className="header__icon-wrap">
                 <item.Icon
