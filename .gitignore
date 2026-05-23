@@ -21,6 +21,7 @@ dist-ssr
 # Build and service caches
 .netlify
 .vercel
+deno.lock
 coverage
 .cache
 .vite

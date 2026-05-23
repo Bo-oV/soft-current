@@ -1,7 +1,7 @@
 @use '../../styles/utils/media' as *;
 
 .footer {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(44, 34, 30, 0.12);
   background: var(--color-bg-light);
 
   &__inner {

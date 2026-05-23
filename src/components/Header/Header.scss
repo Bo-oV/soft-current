@@ -79,7 +79,7 @@
       width: auto;
       max-width: none;
       padding: 16px;
-      border: 1px solid var(--color-border);
+      border: 1px solid rgba(44, 34, 30, 0.12);
       border-radius: var(--border-radius);
       background: var(--color-bg-light);
       box-shadow: var(--shadow);
@@ -112,13 +112,13 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--color-active);
+      outline: 2px solid var(--color-accent);
       outline-offset: 4px;
     }
 
     &--active {
       font-weight: 500;
-      color: var(--color-active);
+      color: var(--color-accent);
     }
 
     @include mobile {
@@ -144,7 +144,7 @@
     height: 32px;
     padding: 0;
     border: 0;
-    color: var(--color-active);
+    color: var(--color-accent);
     background: transparent;
     cursor: pointer;
     transform-origin: center;
@@ -158,7 +158,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--color-active);
+      outline: 2px solid var(--color-accent);
       outline-offset: 3px;
     }
   }
@@ -187,7 +187,7 @@
     font-weight: 500;
     line-height: 1;
     color: var(--color-white);
-    background: var(--color-active);
+    background: var(--color-accent);
   }
 
   &__action-label {
@@ -208,7 +208,7 @@
       width: 44px;
       height: 44px;
       padding: 12px;
-      border: 1px solid var(--color-border);
+      border: 1px solid rgba(44, 34, 30, 0.12);
       border-radius: var(--border-radius);
       background: transparent;
       cursor: pointer;
@@ -219,12 +219,12 @@
 
       &:hover,
       &:focus-visible {
-        border-color: var(--color-active);
+        border-color: var(--color-accent);
         transform: scale(1.1);
       }
 
       &:focus-visible {
-        outline: 2px solid var(--color-active);
+        outline: 2px solid var(--color-accent);
         outline-offset: 3px;
       }
     }
