@@ -115,7 +115,7 @@
   }
 
   @include mobile {
-    padding-block: 72px;
+    padding-block: 32px;
 
     &__header {
       margin-bottom: 56px;
@@ -142,13 +142,13 @@
     }
 
     &__icon {
-      max-width: 84px;
-      max-height: 84px;
+      max-width: 120px;
+      max-height: 120px;
     }
 
     &__item--buy .how-to-order__icon {
-      max-width: 116px;
-      max-height: 56px;
+      max-width: 160px;
+      max-height: 120px;
     }
 
     &__item-text {

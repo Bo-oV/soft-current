@@ -9,7 +9,16 @@
 
   background: var(--color-bg);
 
+  &__menu-backdrop {
+    display: none;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+  }
+
   &__inner {
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     column-gap: 60px;
@@ -27,7 +36,7 @@
     }
 
     @include mobile {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 72px minmax(0, 1fr) 72px;
       column-gap: 16px;
       min-height: 60px;
       margin-inline: 16px;
@@ -38,21 +47,22 @@
     display: inline-flex;
     align-items: center;
     justify-self: start;
-    width: 86px;
+    width: 186px;
 
     @include tablet {
-      width: 76px;
+      width: 150px;
     }
 
     @include mobile {
-      grid-column: 1;
-      width: 86px;
+      grid-column: 2;
+      justify-self: center;
+      width: 116px;
     }
   }
 
   &__logo-image {
     width: 100%;
-    height: auto;
+    height: 28px;
   }
 
   &__nav {
@@ -72,17 +82,22 @@
 
     @include mobile {
       position: absolute;
-      inset: 60px 16px auto;
+      top: 60px;
+      left: -16px;
       display: none;
       flex-direction: column;
-      gap: 0;
-      width: auto;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 48px;
+      width: min(100vw, 414px);
       max-width: none;
-      padding: 16px;
-      border: 1px solid rgba(44, 34, 30, 0.12);
-      border-radius: var(--border-radius);
-      background: var(--color-bg-light);
+      min-height: calc(100vh - 60px);
+      padding: 48px 48px 64px;
+      border: 0;
+      border-radius: 0;
+      background: var(--color-bg);
       box-shadow: var(--shadow);
+      z-index: 3;
     }
 
     &--open {
@@ -122,8 +137,50 @@
     }
 
     @include mobile {
-      padding: 12px 0;
+      padding: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      transform-origin: left center;
     }
+  }
+
+  &__menu-contacts {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 4px;
+      font-style: normal;
+    }
+  }
+
+  &__menu-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__menu-contact-label,
+  &__menu-contact-value {
+    margin: 0;
+    font-family: var(--font-main);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  &__menu-contact-label {
+    font-weight: 500;
+  }
+
+  &__menu-contact-value {
+    font-weight: 300;
+  }
+
+  &__menu-contact-value--accent {
+    color: var(--color-accent);
   }
 
   &__actions {
@@ -132,7 +189,11 @@
     gap: 24px;
 
     @include mobile {
-      display: none;
+      grid-column: 3;
+      display: flex;
+      align-items: center;
+      justify-self: end;
+      gap: 24px;
     }
   }
 
@@ -160,6 +221,11 @@
     &:focus-visible {
       outline: 2px solid var(--color-accent);
       outline-offset: 3px;
+    }
+
+    @include mobile {
+      width: 24px;
+      height: 24px;
     }
   }
 
@@ -203,13 +269,16 @@
     display: none;
 
     @include mobile {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
       display: grid;
-      gap: 6px;
+      align-content: center;
       width: 44px;
       height: 44px;
-      padding: 12px;
-      border: 1px solid rgba(44, 34, 30, 0.12);
-      border-radius: var(--border-radius);
+      padding: 10px;
+      border: 0;
+      border-radius: 0;
       background: transparent;
       cursor: pointer;
       transform-origin: center;
@@ -229,19 +298,24 @@
       }
     }
 
-    span {
+    &-icon {
       display: block;
-      height: 2px;
-      background: var(--color-text);
-      transition: transform var(--transition);
+      width: 24px;
+      height: 24px;
     }
+  }
 
-    &--open span:first-child {
-      transform: translateY(4px) rotate(45deg);
-    }
-
-    &--open span:last-child {
-      transform: translateY(-4px) rotate(-45deg);
+  @include mobile {
+    &__menu-backdrop {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      display: block;
+      background: rgba(44, 34, 30, 0.22);
+      backdrop-filter: blur(6px);
     }
   }
 }

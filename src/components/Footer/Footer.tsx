@@ -4,10 +4,10 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__inner">
-        <a className="footer__brand title-font" href="#hero">
-          Soft Current
-        </a>
-        <p className="footer__text">Handmade knitwear. 2026.</p>
+        <p className="footer__text">© 2026 SoftCurrent</p>
+        <p className="footer__text">
+          Designed & developed by Pavlo Makhnovets(Bo_oV)
+        </p>
       </div>
     </footer>
   )

@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import type { ChangeEvent, FocusEvent, FormEvent, KeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, X } from "lucide-react";
 import Button from "../UI/Button/Button";
@@ -8,6 +8,8 @@ import type { NovaPoshtaCity, NovaPoshtaWarehouse } from "../../types/novaPoshta
 import "./CartCheckoutContent.scss";
 
 const CITY_DEBOUNCE_MS = 400;
+const PHONE_PREFIX = "+380";
+const PHONE_PREFIX_LENGTH = PHONE_PREFIX.length;
 const DEFAULT_CURRENCY = "грн";
 
 type CheckoutErrors = Partial<
@@ -16,12 +18,19 @@ type CheckoutErrors = Partial<
     string
   >
 >;
+type CheckoutInvalidFields = Partial<
+  Record<
+    "customerName" | "customerPhone" | "deliveryCity" | "deliveryWarehouse",
+    boolean
+  >
+>;
 
 type CartDropdownItem = NovaPoshtaCity | NovaPoshtaWarehouse;
 
 type CartDropdownProps<TItem extends CartDropdownItem> = {
   disabled?: boolean;
   emptyText?: string;
+  isInvalid?: boolean;
   items: TItem[];
   loading?: boolean;
   loadingText?: string;
@@ -29,6 +38,7 @@ type CartDropdownProps<TItem extends CartDropdownItem> = {
   onChange: (value: string) => void;
   onSelect: (item: TItem) => void;
   placeholder: string;
+  validationAttempt?: number;
   value: string;
 };
 
@@ -45,9 +55,29 @@ function getItemLabel(item: CartDropdownItem): string {
   return item.label || item.description || "";
 }
 
+function getPhoneDigits(phone: string): string {
+  return phone.replace(/\D/g, "");
+}
+
+function isPhoneEmpty(phone: string): boolean {
+  return getPhoneDigits(phone).length <= 3;
+}
+
+function isPhoneValid(phone: string): boolean {
+  return /^380\d{9}$/.test(getPhoneDigits(phone));
+}
+
+function normalizePhoneValue(phone: string): string {
+  const digits = getPhoneDigits(phone);
+  const localDigits = digits.startsWith("380") ? digits.slice(3) : digits;
+
+  return `${PHONE_PREFIX}${localDigits.slice(0, 9)}`;
+}
+
 function CartDropdown<TItem extends CartDropdownItem>({
   disabled = false,
   emptyText = "",
+  isInvalid = false,
   items,
   loading = false,
   loadingText = "",
@@ -55,6 +85,7 @@ function CartDropdown<TItem extends CartDropdownItem>({
   onChange,
   onSelect,
   placeholder,
+  validationAttempt = 0,
   value,
 }: CartDropdownProps<TItem>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +110,14 @@ function CartDropdown<TItem extends CartDropdownItem>({
     <div className="cart-checkout__dropdown" ref={dropdownRef}>
       <div className="cart-checkout__select-wrap">
         <input
-          className="cart-checkout__input cart-checkout__input--select"
+          className={[
+            "cart-checkout__input",
+            "cart-checkout__input--select",
+            isInvalid ? "cart-checkout__input--invalid" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          key={`${name}-${validationAttempt}`}
           type="text"
           name={name}
           value={value}
@@ -151,6 +189,8 @@ function CartCheckoutContent({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [errors, setErrors] = useState<CheckoutErrors>({});
+  const [invalidFields, setInvalidFields] = useState<CheckoutInvalidFields>({});
+  const [validationAttempt, setValidationAttempt] = useState(0);
   const currency = cartItems[0]?.currency || DEFAULT_CURRENCY;
 
   const orderItems = useMemo(
@@ -233,6 +273,8 @@ function CartCheckoutContent({
     setWarehouses([]);
     setSelectedWarehouse(null);
     setErrors({});
+    setInvalidFields({});
+    setValidationAttempt(0);
     setSubmitError("");
   };
 
@@ -240,6 +282,10 @@ function CartCheckoutContent({
     setErrors((currentErrors) => ({
       ...currentErrors,
       [field]: "",
+    }));
+    setInvalidFields((currentFields) => ({
+      ...currentFields,
+      [field]: false,
     }));
     setSubmitError("");
   };
@@ -251,8 +297,10 @@ function CartCheckoutContent({
       nextErrors.customerName = "Вкажіть ім'я";
     }
 
-    if (!customerPhone.trim()) {
+    if (isPhoneEmpty(customerPhone)) {
       nextErrors.customerPhone = "Вкажіть номер телефону";
+    } else if (!isPhoneValid(customerPhone)) {
+      nextErrors.customerPhone = "Введіть коректний номер телефону у форматі +380XXXXXXXXX";
     }
 
     if (!selectedCity) {
@@ -271,7 +319,20 @@ function CartCheckoutContent({
     event.preventDefault();
     setSubmitError("");
 
-    if (cartItems.length === 0 || !validateForm()) {
+    const isFormValid = validateForm();
+
+    if (!isFormValid) {
+      setInvalidFields({
+        customerName: !customerName.trim(),
+        customerPhone: !isPhoneValid(customerPhone),
+        deliveryCity: !selectedCity,
+        deliveryWarehouse: !selectedWarehouse,
+      });
+      setValidationAttempt((currentAttempt) => currentAttempt + 1);
+      window.setTimeout(() => setInvalidFields({}), 3000);
+    }
+
+    if (cartItems.length === 0 || !isFormValid) {
       return;
     }
 
@@ -319,6 +380,54 @@ function CartCheckoutContent({
     }
   };
 
+  const protectPhonePrefix = (input: HTMLInputElement) => {
+    window.requestAnimationFrame(() => {
+      const selectionStart = input.selectionStart ?? PHONE_PREFIX_LENGTH;
+      const selectionEnd = input.selectionEnd ?? PHONE_PREFIX_LENGTH;
+
+      if (selectionStart < PHONE_PREFIX_LENGTH || selectionEnd < PHONE_PREFIX_LENGTH) {
+        input.setSelectionRange(PHONE_PREFIX_LENGTH, PHONE_PREFIX_LENGTH);
+      }
+    });
+  };
+
+  const handlePhoneFocus = (event: FocusEvent<HTMLInputElement>) => {
+    if (!customerPhone.trim()) {
+      setCustomerPhone(PHONE_PREFIX);
+    }
+
+    protectPhonePrefix(event.currentTarget);
+  };
+
+  const handlePhoneBlur = () => {
+    if (customerPhone.trim() === PHONE_PREFIX) {
+      setCustomerPhone("");
+    }
+  };
+
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCustomerPhone(normalizePhoneValue(event.currentTarget.value));
+    clearFieldError("customerPhone");
+    protectPhonePrefix(event.currentTarget);
+  };
+
+  const handlePhoneKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const selectionStart = input.selectionStart ?? PHONE_PREFIX_LENGTH;
+    const selectionEnd = input.selectionEnd ?? PHONE_PREFIX_LENGTH;
+
+    if (
+      event.key === "Home" ||
+      (event.key === "Backspace" &&
+        selectionStart <= PHONE_PREFIX_LENGTH &&
+        selectionEnd <= PHONE_PREFIX_LENGTH) ||
+      (event.key === "Delete" && selectionStart < PHONE_PREFIX_LENGTH)
+    ) {
+      event.preventDefault();
+      input.setSelectionRange(PHONE_PREFIX_LENGTH, PHONE_PREFIX_LENGTH);
+    }
+  };
+
   return (
     <div className="cart-checkout">
       <div className="cart-checkout__items">
@@ -359,7 +468,13 @@ function CartCheckoutContent({
         <form className="cart-checkout__form" onSubmit={handleSubmit}>
           <label className="cart-checkout__field">
             <input
-              className="cart-checkout__input"
+              className={[
+                "cart-checkout__input",
+                invalidFields.customerName ? "cart-checkout__input--invalid" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              key={`customerName-${validationAttempt}`}
               type="text"
               name="customerName"
               value={customerName}
@@ -378,15 +493,23 @@ function CartCheckoutContent({
 
           <label className="cart-checkout__field">
             <input
-              className="cart-checkout__input"
+              className={[
+                "cart-checkout__input",
+                invalidFields.customerPhone ? "cart-checkout__input--invalid" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              key={`customerPhone-${validationAttempt}`}
               type="tel"
               name="customerPhone"
               value={customerPhone}
               placeholder="*Номер телефону"
-              onChange={(event) => {
-                setCustomerPhone(event.target.value);
-                clearFieldError("customerPhone");
-              }}
+              onFocus={handlePhoneFocus}
+              onBlur={handlePhoneBlur}
+              onChange={handlePhoneChange}
+              onClick={(event) => protectPhonePrefix(event.currentTarget)}
+              onKeyDown={handlePhoneKeyDown}
+              onKeyUp={(event) => protectPhonePrefix(event.currentTarget)}
             />
             {errors.customerPhone && (
               <span className="cart-checkout__error">
@@ -397,10 +520,12 @@ function CartCheckoutContent({
 
           <div className="cart-checkout__field">
             <CartDropdown
+              isInvalid={Boolean(invalidFields.deliveryCity)}
               name="deliveryCity"
               items={cityResults}
               value={citySearch}
               placeholder="Оберіть місто доставки"
+              validationAttempt={validationAttempt}
               loading={isLoadingCities}
               loadingText="Шукаємо місто..."
               emptyText={
@@ -432,10 +557,12 @@ function CartCheckoutContent({
           <div className="cart-checkout__field">
             <CartDropdown
               disabled={!selectedCity}
+              isInvalid={Boolean(invalidFields.deliveryWarehouse)}
               name="deliveryWarehouse"
               items={warehouses}
               value={selectedWarehouse?.description || ""}
               placeholder="Оберіть відділення Нової Пошти"
+              validationAttempt={validationAttempt}
               loading={isLoadingWarehouses}
               loadingText="Завантажуємо відділення..."
               emptyText={selectedCity ? "Відділення не знайдено" : ""}

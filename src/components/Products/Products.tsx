@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { products } from '../../data/products'
+import { useFavorites } from '../../context/useFavorites'
 import useMediaQuery from '../../hooks/useMediaQuery'
 import CartAddedModal from '../Cart/CartAddedModal'
 import SectionTitle from '../UI/SectionTitle/SectionTitle'
@@ -11,27 +12,25 @@ import type { Product } from '../../types/product'
 import './Products.scss'
 
 type ProductsProps = {
-  favoriteProductIds?: string[]
   onCartOpen?: () => void
-  onFavoriteToggle?: (productId: string) => void
 }
 
-function Products({
-  favoriteProductIds = [],
-  onCartOpen,
-  onFavoriteToggle,
-}: ProductsProps) {
+function Products({ onCartOpen }: ProductsProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [isCartAddedOpen, setIsCartAddedOpen] = useState(false)
+  const { favoriteIds, isFavorite, toggleFavorite } = useFavorites()
   const isMobile = useMediaQuery('(max-width: 767px)')
   const availableProducts = products.filter((product) => product.available)
   const popularProducts = availableProducts.filter((product) => product.popular)
+  const previewProducts = popularProducts.length > 0
+    ? popularProducts
+    : availableProducts
   const visibleProducts = isExpanded
     ? availableProducts
-    : popularProducts.length > 0
-      ? popularProducts
-      : availableProducts
+    : previewProducts.slice(0, 4)
+  const shouldShowViewAllButton =
+    !isExpanded && availableProducts.length > visibleProducts.length
 
   const handleCartAdd = () => {
     setSelectedProduct(null)
@@ -49,8 +48,8 @@ function Products({
           {visibleProducts.map((product) => (
             <ProductCard
               product={product}
-              isFavorite={favoriteProductIds.includes(product.id)}
-              onFavoriteToggle={onFavoriteToggle}
+              isFavorite={isFavorite(product.id)}
+              onFavoriteToggle={toggleFavorite}
               onCartAdd={handleCartAdd}
               onOpen={setSelectedProduct}
               key={product.id}
@@ -58,24 +57,26 @@ function Products({
           ))}
         </div>
 
-        <div className="products__action">
-          <ViewAllButton
-            isExpanded={isExpanded}
-            onClick={() => setIsExpanded((current) => !current)}
-          >
-            {isExpanded ? 'Згорнути товари' : 'Переглянути всі товари'}
-          </ViewAllButton>
-        </div>
+        {shouldShowViewAllButton && (
+          <div className="products__action">
+            <ViewAllButton
+              isExpanded={isExpanded}
+              onClick={() => setIsExpanded(true)}
+            >
+              Переглянути всі товари
+            </ViewAllButton>
+          </div>
+        )}
       </div>
 
       {selectedProduct && isMobile && (
         <ProductDetailsPage
           product={selectedProduct}
           products={availableProducts}
-          favoriteProductIds={favoriteProductIds}
+          favoriteProductIds={favoriteIds}
           onBack={() => setSelectedProduct(null)}
           onCartAdd={handleCartAdd}
-          onFavoriteToggle={onFavoriteToggle}
+          onFavoriteToggle={toggleFavorite}
           onProductSelect={setSelectedProduct}
         />
       )}

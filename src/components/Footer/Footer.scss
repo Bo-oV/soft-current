@@ -1,31 +1,35 @@
 @use '../../styles/utils/media' as *;
 
 .footer {
-  border-top: 1px solid rgba(44, 34, 30, 0.12);
   background: var(--color-bg-light);
 
   &__inner {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    min-height: 96px;
+    justify-content: center;
+    gap: 0;
+    min-height: 88px;
     margin-inline: 240px;
+    text-align: center;
 
     @include tablet {
       margin-inline: 48px;
     }
 
     @include mobile {
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      margin-inline: 16px;
-      padding-block: 24px;
+      min-height: 66px;
+      margin-inline: 28px;
+      padding-block: 16px 18px;
     }
   }
 
-  &__brand {
-    font-size: 28px;
+  &__text {
+    margin: 0;
+    color: var(--color-muted);
+    font-family: var(--font-main);
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 1.6;
   }
 }

@@ -3,7 +3,9 @@ import "./CustomOrder.scss";
 
 function CustomOrder() {
   const handleCustomOrderClick = () => {
-    // TODO: open custom order checkout flow
+    document
+      .getElementById("contacts")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (

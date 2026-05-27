@@ -3,19 +3,29 @@ import './About.scss'
 function About() {
   return (
     <section className="about section" id="about">
-      <div className="about__decor" aria-hidden="true" />
       <div className="container about__container">
-        <div className="about__image">Фото майстрині</div>
+        <div className="about__media">
+          <img
+            className="about__image"
+            src="/images/about/about-master.png"
+            alt="Майстриня Вероніка у в'язаному кардигані"
+          />
+        </div>
+
         <div className="about__content">
-          <span className="section__eyebrow">About</span>
-          <h2>Про майстриню</h2>
-          <p>
-            Тут буде історія бренду, підхід до матеріалів, ручної роботи та
-            невеликий емоційний вступ до handmade-філософії.
+          <p className="about__eyebrow">Про майстриню</p>
+          <h2 className="about__title">Привіт, я Вероніка</h2>
+          <p className="about__text">
+            Я створюю в'язані вироби вручну - повільно, уважно і з любов'ю до
+            кожної деталі. Мені подобається ручна робота, бо в ній є щось
+            особливе: жодна річ не повторюється повністю, кожна має свій
+            настрій, фактуру і характер.
           </p>
-          <p>
-            Декоративні елементи вже мають місце через absolute-позиціонування,
-            щоб пізніше перенести візуальні деталі з дизайну.
+          <p className="about__text">
+            Для мене важливо створювати не просто одяг чи аксесуари, а теплі
+            речі, які хочеться носити, берегти і повертати до них знову. У
+            кожному виробі - час, турбота, м'якість і частинка моєї любові до
+            handmade.
           </p>
         </div>
       </div>

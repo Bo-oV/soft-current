@@ -25,7 +25,7 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       justify-content: center;
       justify-items: center;
-      gap: 62px clamp(16px, 7vw, 29px);
+      gap: 62px clamp(8px, 7vw, 16px);
     }
   }
 
@@ -317,8 +317,8 @@
       height: 22px;
       min-height: 22px;
       padding-inline: 10px;
-      border-radius: 7px;
-      font-size: 12px;
+      border-radius: 6px;
+      font-size: 8px;
       line-height: 1.1;
 
       &.buy-button--text {

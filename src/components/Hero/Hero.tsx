@@ -2,6 +2,12 @@ import Button from "../UI/Button/Button";
 import "./Hero.scss";
 
 function Hero() {
+  const scrollToProducts = () => {
+    document
+      .getElementById("products")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section className="hero" id="hero">
       <div className="container hero__container">
@@ -13,12 +19,14 @@ function Hero() {
           </h1>
 
           <p className="hero__text">
-            Повільна мода, натуральні матеріали та речі, які дарують тепло і
-            затишок щодня. Кожен виріб створюється вручну невеликими партіями
-            однією майстринею.
+            Ніжні в’язані вироби ручної роботи для тепла й затишку щодня. Кожна
+            річ створюється з увагою до деталей, а доставка по Україні —
+            безкоштовна.
           </p>
 
-          <Button className="hero__button">Переглянути колекцію</Button>
+          <Button className="hero__button" onClick={scrollToProducts}>
+            Переглянути колекцію
+          </Button>
         </div>
 
         <div className="hero__mark" aria-label="100% ручна робота">

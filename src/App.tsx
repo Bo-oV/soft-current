@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CartModal from './components/Cart/CartModal'
 import OrderSuccessModal from './components/Cart/OrderSuccessModal'
 import CartScreen from './components/Cart/CartScreen'
+import FavoritesModal from './components/FavoritesModal/FavoritesModal'
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
 import Products from './components/Products/Products'
@@ -12,38 +13,31 @@ import About from './components/About/About'
 import Contacts from './components/Contacts/Contacts'
 import Footer from './components/Footer/Footer'
 import { CartProvider } from './context/CartContext'
+import { FavoritesProvider } from './context/FavoritesContext'
 import { useCart } from './context/useCart'
+import { useFavorites } from './context/useFavorites'
 import useMediaQuery from './hooks/useMediaQuery'
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage'
 
 function AppContent() {
-  const [favoriteProductIds, setFavoriteProductIds] = useState<string[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false)
   const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false)
   const { cartItems } = useCart()
+  const { favoritesCount } = useFavorites()
   const isMobile = useMediaQuery('(max-width: 767px)')
-
-  const toggleFavorite = (productId: string) => {
-    setFavoriteProductIds((currentIds) =>
-      currentIds.includes(productId)
-        ? currentIds.filter((id) => id !== productId)
-        : [...currentIds, productId],
-    )
-  }
 
   return (
     <>
       <Header
         cartCount={cartItems.length}
-        favoritesCount={favoriteProductIds.length}
+        favoritesCount={favoritesCount}
         onCartOpen={() => setIsCartOpen(true)}
+        onFavoritesOpen={() => setIsFavoritesOpen(true)}
       />
       <main className="page-grid">
         <Hero />
-        <Products
-          favoriteProductIds={favoriteProductIds}
-          onCartOpen={() => setIsCartOpen(true)}
-          onFavoriteToggle={toggleFavorite}
-        />
+        <Products onCartOpen={() => setIsCartOpen(true)} />
         <HowToOrder />
         <CustomOrder />
         <Care />
@@ -68,6 +62,19 @@ function AppContent() {
         isOpen={isOrderSuccessOpen}
         onClose={() => setIsOrderSuccessOpen(false)}
       />
+      {isMobile ? (
+        <FavoritesPage
+          isOpen={isFavoritesOpen}
+          onClose={() => setIsFavoritesOpen(false)}
+          onCartOpen={() => setIsCartOpen(true)}
+        />
+      ) : (
+        <FavoritesModal
+          isOpen={isFavoritesOpen}
+          onClose={() => setIsFavoritesOpen(false)}
+          onCartOpen={() => setIsCartOpen(true)}
+        />
+      )}
     </>
   )
 }
@@ -75,7 +82,9 @@ function AppContent() {
 function App() {
   return (
     <CartProvider>
-      <AppContent />
+      <FavoritesProvider>
+        <AppContent />
+      </FavoritesProvider>
     </CartProvider>
   )
 }

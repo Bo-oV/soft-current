@@ -11,19 +11,6 @@
   background-repeat: no-repeat;
   overflow: hidden;
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(251, 248, 244, 0.72) 0%,
-      rgba(251, 248, 244, 0.48) 34%,
-      rgba(251, 248, 244, 0.12) 65%,
-      rgba(251, 248, 244, 0.04) 100%
-    );
-  }
-
   &__container {
     position: relative;
     z-index: 1;
@@ -31,13 +18,13 @@
     min-height: 100dvh;
     align-content: start;
 
-    padding-top: 120px;
+    padding-top: 180px;
     padding-bottom: 64px;
   }
 
   &__content {
-    grid-column: 1 / span 5;
-    max-width: 560px;
+    grid-column: 1 / span 7;
+    max-width: 620px;
   }
 
   &__title {
@@ -56,7 +43,7 @@
     font-weight: 300;
     line-height: 160%;
     color: var(--color-text);
-    max-width: 540px;
+    max-width: 620px;
   }
 
   &__button {
@@ -161,12 +148,12 @@
     background-position: center;
 
     &__container {
-      padding-top: 112px;
+      padding-top: 80px;
       padding-bottom: 40px;
     }
 
     &__content {
-      grid-column: 1 / -1;
+      grid-column: 1 / span 3;
       max-width: 100%;
     }
 
@@ -184,6 +171,7 @@
 
     &__button {
       margin-top: 36px;
+      left: 0;
     }
 
     &__mark {

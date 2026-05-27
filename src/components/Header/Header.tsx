@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Heart, Handbag } from "lucide-react";
+import { Handbag } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import FavoritesButton from "../FavoritesButton/FavoritesButton";
 import "./Header.scss";
 
 const navItems = [
@@ -15,6 +16,7 @@ type HeaderProps = {
   cartCount?: number;
   favoritesCount?: number;
   onCartOpen?: () => void;
+  onFavoritesOpen?: () => void;
 };
 
 type HeaderActionItem = {
@@ -24,7 +26,12 @@ type HeaderActionItem = {
   onClick?: () => void;
 };
 
-function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) {
+function Header({
+  cartCount = 0,
+  favoritesCount = 0,
+  onCartOpen,
+  onFavoritesOpen,
+}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const actionItems: HeaderActionItem[] = [
@@ -33,11 +40,6 @@ function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) 
       count: cartCount,
       Icon: Handbag,
       onClick: onCartOpen,
-    },
-    {
-      label: "Обране",
-      count: favoritesCount,
-      Icon: Heart,
     },
   ];
 
@@ -73,7 +75,7 @@ function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) 
         <a className="header__logo" href="#hero" onClick={closeMenu}>
           <img
             className="header__logo-image"
-            src="/images/logo.png"
+            src="/images/logo.svg"
             alt="Soft Current"
           />
         </a>
@@ -91,6 +93,20 @@ function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) 
               {item.label}
             </a>
           ))}
+          <address className="header__menu-contacts">
+            <div className="header__menu-contact">
+              <p className="header__menu-contact-label">E-mail:</p>
+              <a className="header__menu-contact-value header__menu-contact-value--accent" href="mailto:softcurrent.shop@gmail.com">
+                softcurrent.shop@gmail.com
+              </a>
+            </div>
+            <div className="header__menu-contact">
+              <p className="header__menu-contact-label">Telegram:</p>
+              <a className="header__menu-contact-value" href="https://t.me/roni9991">
+                @roni9991
+              </a>
+            </div>
+          </address>
         </nav>
 
         <div className="header__actions" aria-label="Дії магазину">
@@ -109,11 +125,14 @@ function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) 
                   strokeWidth={1}
                   aria-hidden="true"
                 />
-                <span className="header__counter">{item.count}</span>
+                {item.count > 0 && (
+                  <span className="header__counter">{item.count}</span>
+                )}
               </span>
               <span className="header__action-label">{item.label}</span>
             </button>
           ))}
+          <FavoritesButton count={favoritesCount} onClick={onFavoritesOpen} />
         </div>
 
         <button
@@ -123,10 +142,17 @@ function Header({ cartCount = 0, favoritesCount = 0, onCartOpen }: HeaderProps) 
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((current) => !current)}
         >
-          <span />
-          <span />
+          <img className="header__burger-icon" src="/images/menu.svg" alt="" aria-hidden="true" />
         </button>
       </div>
+      {isMenuOpen && (
+        <button
+          className="header__menu-backdrop"
+          type="button"
+          aria-label="Закрити меню"
+          onClick={closeMenu}
+        />
+      )}
     </header>
   );
 }

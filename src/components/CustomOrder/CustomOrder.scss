@@ -132,7 +132,7 @@
   }
 
   @include mobile {
-    padding-block: 0 40px;
+    padding-block: 10px 40px;
 
     &__media,
     &__content-wrap {
@@ -169,7 +169,7 @@
       top: 0;
       right: 0;
       bottom: auto;
-      width: 170px;
+      width: 120px;
     }
 
     &__title {
