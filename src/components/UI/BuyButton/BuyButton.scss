@@ -32,7 +32,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-accent-dark);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 
@@ -62,7 +62,7 @@
     &:hover,
     &:focus-visible {
       background: transparent;
-      color: var(--color-accent-dark);
+      color: var(--color-accent);
       transform: scale(1.1);
     }
   }

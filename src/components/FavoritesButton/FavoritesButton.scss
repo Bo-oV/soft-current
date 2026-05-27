@@ -1,0 +1,61 @@
+.favorites-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  transform-origin: center;
+  transition:
+    color var(--transition),
+    transform var(--transition);
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  &__icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__counter {
+    position: absolute;
+    top: -6px;
+    right: -7px;
+    display: grid;
+    place-items: center;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-family: var(--font-main);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .favorites-button {
+    width: 24px;
+    height: 24px;
+  }
+}

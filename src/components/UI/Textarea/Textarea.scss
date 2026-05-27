@@ -12,15 +12,22 @@
     min-height: 132px;
     resize: vertical;
     padding: 14px 16px;
-    border: 1px solid var(--color-border);
+    border: 1px solid rgba(44, 34, 30, 0.12);
     border-radius: var(--border-radius);
     color: var(--color-text);
     background: var(--color-white);
+    box-shadow: var(--input-shadow);
     outline: none;
-    transition: border-color var(--transition);
+    transform-origin: center;
+    transition:
+      border-color var(--transition),
+      box-shadow var(--transition),
+      transform var(--transition);
 
+    &:hover,
     &:focus {
       border-color: var(--color-accent);
+      transform: scale(1.05);
     }
   }
 }

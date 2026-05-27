@@ -1,16 +1,55 @@
-# React + Vite
+# Soft Current
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite + SCSS storefront for a handmade knitwear shop.
 
-Currently, two official plugins are available:
+## Local Netlify Functions Test
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Create `.env` in the project root. Do not commit it.
 
-## React Compiler
+```env
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+NOVA_POSHTA_API_KEY=
+TEST_MODE=true
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. Start Netlify Dev:
 
-## Expanding the ESLint configuration
+```bash
+netlify dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If Netlify CLI is not installed globally, run:
+
+```bash
+npx netlify-cli dev
+```
+
+3. Open:
+
+```text
+http://localhost:8888
+```
+
+4. Add a product to the cart, fill the checkout form, and submit the order.
+
+5. With `TEST_MODE=true`, the order is not sent to Telegram. Check the Netlify Dev terminal for `Soft Current test order payload`.
+
+6. With `TEST_MODE=false`, the function sends the order to Telegram using `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
+
+Frontend requests must stay relative:
+
+```js
+fetch('/.netlify/functions/send-order', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(payload),
+})
+```
+
+Nova Poshta requests also go through Netlify Functions:
+
+- `/.netlify/functions/nova-poshta-cities`
+- `/.netlify/functions/nova-poshta-warehouses`

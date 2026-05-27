@@ -70,26 +70,44 @@
   &__input,
   &__textarea {
     width: 368px;
-    border: 0;
-    border-radius: 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
     background: var(--color-bg);
-    box-shadow: 0 5px 12px 0 rgba(61, 31, 8, 0.08);
+    box-shadow: var(--input-shadow);
     color: var(--color-text);
     font-family: var(--font-main);
     font-size: 14px;
     font-weight: 300;
     line-height: 1.2;
     outline: none;
+    transform-origin: center;
     transition:
       border-color var(--transition),
-      box-shadow var(--transition);
+      border-radius var(--transition),
+      box-shadow var(--transition),
+      transform var(--transition);
 
     &::placeholder {
       color: rgba(77, 64, 56, 0.45);
     }
 
-    &:focus {
-      border: 1px solid var(--color-accent);
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      border-color: var(--color-accent);
+      border-radius: 24px;
+      box-shadow: var(--input-shadow);
+      transform: scale(1.05);
+    }
+
+    &--invalid {
+      border-color: var(--color-error);
+      animation: cart-checkout-invalid-field 320ms ease;
+
+      &:focus,
+      &:focus-visible {
+        border-color: var(--color-error);
+      }
     }
   }
 
@@ -137,7 +155,7 @@
     padding: 8px;
     border-radius: 10px;
     background: var(--color-bg-light);
-    box-shadow: var(--shadow);
+    box-shadow: var(--input-shadow);
   }
 
   &__option {
@@ -191,7 +209,7 @@
   }
 
   &__success {
-    color: var(--color-accent-dark);
+    color: var(--color-accent);
   }
 
   &__note {
@@ -201,36 +219,9 @@
   &__submit {
     justify-self: center;
     min-width: 196px;
-    padding: 0 18px;
     height: 34px;
-    border: 0;
     border-radius: 10px;
-    background: var(--color-accent);
-    color: var(--color-white);
-    font-family: var(--font-main);
     font-size: 14px;
-    font-weight: 700;
-    line-height: 1.1;
-    text-transform: uppercase;
-    cursor: pointer;
-    transform-origin: center;
-    transition:
-      background var(--transition),
-      color var(--transition),
-      transform var(--transition);
-
-    &:hover,
-    &:focus-visible {
-      background: var(--color-white);
-      color: var(--color-text);
-      transform: scale(1.1);
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-      transform: none;
-    }
   }
 
   &__close-success {
@@ -253,9 +244,20 @@
 
     &:hover,
     &:focus-visible {
-      color: var(--color-accent-dark);
+      color: var(--color-accent);
       transform: scale(1.1);
     }
+  }
+}
+
+@keyframes cart-checkout-invalid-field {
+  0%,
+  100% {
+    border-color: var(--color-error);
+  }
+
+  45% {
+    border-color: transparent;
   }
 }
 
@@ -323,7 +325,7 @@
 
     &:hover,
     &:focus-visible {
-      color: var(--color-accent-dark);
+      color: var(--color-accent);
       transform: scale(1.1);
     }
   }

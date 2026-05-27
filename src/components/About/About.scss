@@ -1,56 +1,112 @@
-@use '../../styles/utils/media' as *;
-@use '../../styles/utils/mixins' as *;
+@use "../../styles/utils/media" as *;
 
 .about {
-  position: relative;
+  min-height: 500px;
+  padding-block: 80px;
   background: var(--color-bg-light);
 
   &__container {
     align-items: center;
   }
 
+  &__media {
+    grid-column: 2 / span 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &__image {
-    @include placeholder-surface;
-    grid-column: 1 / span 5;
-    min-height: 480px;
-
-    @include tablet {
-      grid-column: 1 / span 4;
-    }
-
-    @include mobile {
-      grid-column: 1 / -1;
-      min-height: 320px;
-    }
+    display: block;
+    width: 449px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   &__content {
     grid-column: 7 / span 5;
-    display: grid;
-    gap: 20px;
+    align-self: center;
+    max-width: 480px;
+  }
 
-    @include tablet {
-      grid-column: 5 / -1;
-    }
+  &__eyebrow {
+    margin: 0 0 4px;
+    color: var(--color-accent);
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
 
-    @include mobile {
-      grid-column: 1 / -1;
-      margin-top: 32px;
+  &__title {
+    margin: 0 0 32px;
+    color: var(--color-text);
+    font-family: var(--font-title);
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  &__text {
+    max-width: 480px;
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+
+    + .about__text {
+      margin-top: 12px;
     }
   }
 
-  &__decor {
-    position: absolute;
-    right: 8%;
-    top: 72px;
-    width: 160px;
-    height: 160px;
-    border: 1px solid var(--color-accent);
-    border-radius: 50%;
-    opacity: 0.2;
+  @include tablet {
+    padding-block: 72px;
 
-    @include mobile {
-      display: none;
+    &__media {
+      grid-column: 1 / span 4;
+    }
+
+    &__image {
+      width: 360px;
+    }
+
+    &__content {
+      grid-column: 5 / -1;
+      max-width: 420px;
+    }
+  }
+
+  @include mobile {
+    padding-block: 20px;
+
+    &__container {
+      row-gap: 40px;
+    }
+
+    &__media {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+
+    &__image {
+      width: 100%;
+      max-width: 360px;
+      margin-inline: auto;
+    }
+
+    &__content {
+      grid-column: 1 / -1;
+      max-width: 100%;
+    }
+
+    &__title {
+      margin-bottom: 24px;
+      font-size: 28px;
+      line-height: 1.4;
     }
   }
 }
